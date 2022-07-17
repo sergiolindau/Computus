@@ -1,0 +1,3 @@
+Em astronomia, as coordenadas celestes denotam a posição de um corpo celeste no céu terrestre ou sua posição relativa a partir de um sistema de coordenadas numa grade bidimensional ou sistema esférico. Tipicamente são usadas coordenadas esféricas, ignorando-se a coordenada radial (ou considerando-a igual a um). A razão para isso é que, por razões fisiológicas, vemos o céu como uma casca esférica na qual todos os corpos celestes parecem grudados. Em termos de orientação, basta conhecer as posições dos astros nesta casca.
+
+[English](https://en.wikipedia.org/wiki/Astronomical_coordinate_systems)

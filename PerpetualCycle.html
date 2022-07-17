@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script language="javascript" src="DOMHelper.js"></script>
+<script language="javascript" src="Computus.js"></script>
+<script language="javascript" src="writePerpetualCycle.js"></script>
+<script language="javascript" src="weekdayTest.js"></script>
+
+  <script src="GitHubRepository.js"></script>
+<title>Perpetual Gregorian Calendar</title>
+</head>
+
+<body onload="GitHubRepository('footer', 'sergiolindau', 'Computus', 'Sergio Lindau', 2017);">
+    <h1 align="center">Perpetual Calendar</h1>
+    <script>writePerpetualCycle(15)</script>
+    <input type="button" value="Test Computus.weekday (results in console)" onclick="weekdayTest(0,32000)" />
+  <hr />
+  <div id="footer" style="display: flex; justify-content: center;"></div>
+</body>
+</html>

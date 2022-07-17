@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CanvasGraph</title>
+<script language="javascript" src="Computus.js"></script>
+<script language="javascript" src="CanvasGraph.js"></script>
+<script language="javascript" src="DOMHelper.js"></script>
+<script language="javascript" src="GitHubRepository.js"></script>
+<script>
+  function clickDrawGraph() {
+//    calcPlotData(code: string, variable: string, start: string | number, end: string | number, step: string | number, pdata: PlotData)
+    calcPlotData(
+      DOM$.i("function").value,
+      DOM$.i("var").value,
+      DOM$.i("start").value,
+      DOM$.i("step").value,
+      DOM$.i("end").value,
+      plotData
+    );
+    let plot = new CanvasPlot('container', plotData.data.length, 555, plotData);
+  }
+</script>
+</head>
+<body onload="GitHubRepository('footer', 'sergiolindau', 'Computus', 'Sergio Lindau', 2017);">
+<p>
+  <textarea name="function" cols="80" rows="7" id="function">Computus.equationOfTime(Computus.jd2jc(Computus.cal2jd(2022,0,1)+d))</textarea>
+</p>
+<p>
+  <input type="text" id="var" value="d">
+= 
+  <input type="text" id="start" value="0" />
+:  
+<input type="text" id="step" value="1" />
+:  
+<input type="text" id="end" value="365" />
+</p>
+<p>
+  <input onclick="clickDrawGraph()" type="button" value="Draw Graph">
+</p>
+<div id="container"></div>
+<hr />
+<div id="footer" style="display: flex; justify-content: center;"></div>
+</body>
+
+</html>

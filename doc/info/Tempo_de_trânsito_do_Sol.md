@@ -1,0 +1,4 @@
+O tempo de trânsito do sol, também conhecido como tempo de trânsito Sol-meridiano, é o momento diário em que o Sol culmina no meridiano do observador, atingindo sua posição mais alta no céu. Esta hora solar é mais frequentemente usada como meio-dia local e, portanto, varia com a longitude. Por exemplo, em 29 de abril, o tempo de trânsito do sol em Boston, Massachusetts é 12h42, enquanto que para Nova York, Nova York é 12h53. Isso se deve à distância longitudinal entre as duas cidades. O trânsito solar corresponde ao meio-dia solar.
+
+## Wikipédia
+[English](https://en.wikipedia.org/wiki/Sun_transit_time)

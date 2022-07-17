@@ -1,0 +1,267 @@
+:root {
+  --default-font-family: "Lucida Console", Monaco, monospace;
+  --default-font-color: rgb(51, 51, 51);
+  --default-background: rgb(255, 255, 255);
+  --default-border-radius: 15px;
+  --default-arrow-color: rgb(185, 185, 185);
+  --default-arrow-color-hover: rgb(55, 55, 55);
+  --sunday-color: rgb(255, 0, 0);
+  --sunday-background: rgb(255, 204, 204);
+  --dayoff-background: rgb(221, 136, 221);
+  --celebration-background: rgb(170, 170, 255);
+  --today-background: rgb(226, 226, 120);
+  --year-input-border-color: rgb(255, 255, 4);
+  --thismonth-hover-background: rgb(128, 128, 128);
+  --othermonth-background: rgb(204, 204, 204);
+  --othermonth-color: rgb(136, 136, 136);
+  --moonpanel-background: rgb(238, 238, 170);
+  --weekheader-backgroung: rgb(204, 204, 136);
+  --border-color: rgb(221, 221, 221);
+  --border-line-width: 2px;
+  --date-font-size: 0.875em;
+  --moonpanel-font-size: 0.875em;
+  --datespanel-font-size: 0.75em;
+  --sheet-padding: 7px;
+  --monthfooter-panel-padding: 3px;
+  --arrow-01: 30px;
+}
+
+table.oldcal {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: var(--border-line-width) solid var(--border-color);
+}
+
+.oldcal td {
+  padding: var(--sheet-padding);
+}
+
+
+.monthheader,
+.weekheader,
+.monthsheet,
+.monthsheet td {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: var(--border-line-width) solid var(--border-color);
+}
+
+.calendar-page td,
+.monthheader,
+.monthsheet td,
+.monthsheet th {
+  padding: var(--sheet-padding);
+}
+
+.calendar-page td {
+  vertical-align: top;
+}
+
+.simple-text {
+  background: var(--default-background);
+  text-align: center;
+  font-family: var(--default-font-family);
+  color: var(--default-font-color);
+  border-radius: var(--default-border-radius);
+}
+
+/* .calendar-header, */
+.monthheader {
+  display: flex;
+  justify-content: center; /* horizontal */
+  align-items: center; /* vertical */
+}
+
+.calendar-header,
+.calendar-year {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar-header {
+  flex-direction: column;
+}
+
+.calendar-year {
+  flex-direction: row;
+}
+
+.yearfield {
+  margin: 3px;
+  display: inline;
+  padding: 22px;
+  background: var(--default-background);
+  text-align: center;
+  width: 3em;
+  font-size: 2em;
+  margin: 3px;
+  font-family: var(--default-font-family);
+  color: var(--default-font-color);
+  border-radius: var(--default-border-radius);
+  border: none;
+}
+
+input.yearfield:hover {
+  margin: 3px;
+  padding: 22px;
+  background: var(--today-background);
+}
+
+.calendar-label {
+  /*  padding: var(--sheet-padding); */
+  display:block;
+  background: var(--default-background);
+  text-align: center;
+  font-family: var(--default-font-family);
+  font-size: var(--default-font-size);
+  color: var(--default-font-color);
+  border-radius: var(--default-border-radius);
+}
+  
+.thismonth,
+.monthname,
+.weekheader,
+.sunday {
+/*  padding: var(--sheet-padding); */
+  background: var(--default-background);
+  text-align: center;
+  font-family: var(--default-font-family);
+  font-size: var(--date-font-size);
+  color: var(--default-font-color);
+  border-radius: var(--default-border-radius);
+}
+
+.thismonth:hover {
+  background: var(--thismonth-hover-background);
+  cursor: pointer;
+}
+
+.weekheader {
+  background: var(--weekheader-backgroung);
+  color: var(--default-font-color);
+}
+
+.sunday {
+  background: var(--sunday-background);
+  color: var(--sunday-color);
+}
+
+.dayoff {
+  background: var(--dayoff-background);
+}
+
+.celebration {
+  background: var(--celebration-background);
+}
+
+.today {
+  background: var(--today-background);
+}
+
+.todaylabel::before {
+  content: 'Hoje';
+}
+
+.othermonth {
+/*  padding: var(--sheet-padding); */
+  background: var(--othermonth-background);
+  text-align: center;
+  font-family: var(--default-font-family);
+  font-size: var(--date-font-size);
+  color: var(--othermonth-color);
+}
+
+.moonpanel,
+.datespanel {
+  padding: var(--monthfooter-panel-padding);
+  text-align: left;
+  font-family: var(--default-font-family);
+  color: var(--default-font-color);
+}
+
+.moonpanel {
+  background: var(--moonpanel-background);
+  text-align: center;
+  font-size: var(--moonpanel-font-size);
+}
+
+.datespanel {
+  background: var(--default-background);
+  font-size: var(--datespanel-font-size);
+}
+
+/* data-tooltip */
+[data-tooltip] {
+  position: relative;
+  cursor: pointer;
+}
+
+[data-tooltip]:before {
+  content: attr(data-tooltip);
+  display: none;
+  position: absolute;
+  top: 20px;
+  width: 150px;
+  z-index: 100;
+  padding: 10px;
+  text-decoration: none;
+  font: var(--default-font-family);
+  border: 1px solid grey;
+  background: white;
+  color: black;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px grey;
+}
+
+[data-tooltip]:hover:before {
+  display: inline-block;
+}
+
+.yearprev {
+	width: 0;
+	height: 0;
+  border-top: var(--arrow-01) solid transparent;
+  border-right: var(--arrow-01) solid var(--default-arrow-color);
+  border-bottom: var(--arrow-01) solid transparent;
+}
+
+.yearprev:hover {
+  border-right: var(--arrow-01) solid var(--default-arrow-color-hover);
+  cursor: pointer;
+}
+
+.yearnext {
+	width: 0;
+	height: 0;
+  border-top: var(--arrow-01) solid transparent;
+  border-left: var(--arrow-01) solid var(--default-arrow-color);
+  border-bottom: var(--arrow-01) solid transparent;
+}
+
+.yearnext:hover {
+  border-left: var(--arrow-01) solid var(--default-arrow-color-hover);
+  cursor: pointer;
+}
+
+.newmoon-icon::before {
+  content: '🌑';
+}
+
+.firstquarter-icon::before {
+  content: '🌗';
+}
+
+.fullmoon-icon::before {
+  content: '🌕';
+}
+
+.lastquarter-icon::before {
+  content: '🌓';
+}
+
+ul {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}

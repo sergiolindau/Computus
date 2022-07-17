@@ -1,0 +1,1 @@
+Ver [[Tempo Médio de Greenwich]].

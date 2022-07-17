@@ -1,0 +1,1 @@
+Ver [[Serviço Internacional de Rotação da Terra]].

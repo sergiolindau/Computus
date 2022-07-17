@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script language="javascript" src="DOMHelper.js"></script>
+<script language="javascript" src="Computus.js"></script>
+  <script src="GitHubRepository.js"></script>
+<script>
+function changeEasterYear() {
+	var year = DOM$.i("year_e").value;
+	var easter = Computus.easterSunday(year);
+	DOM$.i("month_e").innerHTML = easter[1];
+	DOM$.i("date_e").innerHTML = easter[2];
+	DOM$.i("dominical_e").innerHTML = Computus.dominical(year);
+}
+function loadPage() {
+	var date = new Date()
+	DOM$.i("year_e").value = date.getFullYear();
+	changeEasterYear();
+}
+</script>
+<title>Easter Sunday</title>
+</head>
+
+<body onload="loadPage(); GitHubRepository('footer', 'sergiolindau', 'Computus', 'Sergio Lindau', 2017)">
+    <h1 align="center">Easter Sunday</h1>
+<table>
+      <tr>
+        <td>Easter Sunday: 
+      <span id="date_e"> date </span> /
+      <span id="month_e"> month </span> /
+      <input type="text" id="year_e" onchange="changeEasterYear()" size="9" value="year" /><br />
+      Dominical Letter (Gregorian) :<span id="dominical_e"> Dominical Letter </span><br />
+        </td>
+        <td><a title="sv:Johan Gustaf Liljegren [Public domain], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:P%C3%A5sktavla_ur_Liljegrens_Runl%C3%A4ra_(ur_Sverige_Runinskrifter).png"><img width="256" alt="Påsktavla ur Liljegrens Runlära (ur Sverige Runinskrifter)" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/P%C3%A5sktavla_ur_Liljegrens_Runl%C3%A4ra_%28ur_Sverige_Runinskrifter%29.png/256px-P%C3%A5sktavla_ur_Liljegrens_Runl%C3%A4ra_%28ur_Sverige_Runinskrifter%29.png"></a></td>
+      </tr>
+    </table>
+  <hr />
+  <div id="footer" style="display: flex; justify-content: center;"></div>
+</body>
+</html>

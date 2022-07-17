@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>GeoDateTimePanel</title>
+    <script language="javascript" type="text/javascript" src="Computus.js"></script>
+	<script language="javascript" type="text/javascript" src="DateTime.js"></script>
+    <script language="javascript" type="text/javascript" src="DOMHelper.js"></script>
+	<script language="javascript" type="text/javascript" src="Angle.js"></script>
+	<script language="javascript" type="text/javascript" src="GeoLocation.js"></script>
+	<script language="javascript" type="text/javascript" src="StringData.js"></script>
+	<script language="javascript" type="text/javascript" src="Language.js"></script>
+	<script language="javascript" type="text/javascript" src="GeoLocationPanel.js"></script>
+	<script language="javascript" type="text/javascript" src="Tick.js"></script>
+	<script language="javascript" type="text/javascript" src="DateTimeTick.js"></script>
+	<script language="javascript" type="text/javascript" src="DateTimePanel.js"></script>
+    <script src="GitHubRepository.js"></script>    
+
+<script>
+function setJ2000() {
+	console.log("Stop...");
+	console.log("Set date to J2000 (Julian Date = 2451545)");
+	dateUTC.stop();
+	dateUTC.setJulianDate(2451545);
+	panelUpdate(dateUTC);
+}
+
+function loadPage() {
+	initLocationPanel();
+	initDateTimePanel();
+	clickNow();
+	clickRunStop();
+}
+</script>
+
+</head>
+<body onLoad="loadPage(); GitHubRepository('footer', 'sergiolindau', 'Computus', 'Sergio Lindau', 2017);">
+<h1 align="center">GeoLocation DateTime Panel</h1>
+<p><input type="button" value="J2000.0 (0,0)" onclick="setJ2000();" /></p>
+<table width="0%" border="1">
+  <tr>
+    <td><strong><span id="translation_languageLabel_t01">translation_languageLabel_t01</span><script>makeTranslation("translation_languageLabel_t01");</script></strong> <span id="select_language_s01"> select_language_s01 </span><script>makeTranslation("select_language_s01");</script> (<span id="translation_shortLanguageDescription_t01">translation_shortLanguageDescription_t01</span><script>makeTranslation("translation_shortLanguageDescription_t01");</script>)</td>
+  </tr>
+  <tr>
+    <td>
+<table>
+      <tr>
+	    <td colspan="10" align="left"><strong><span id="translation_locationLabel_t01"> translation_locationLabel_t01 </span><script>makeTranslation("translation_locationLabel_t01");</script></strong> (<span id="glossary_GPL_g01"> glossary_GPL_g01 </span><script>makeTranslation("glossary_GPL_g01");</script>)</td>
+        <td rowspan="3">
+          <input type="checkbox" id="isLocationResponse" onclick="clickCurrentLocation()" /><span id="translation_currentLocationLabel_t01">translation_currentLocationLabel_t01</span><script>makeTranslation("translation_currentLocationLabel_t01");</script><br />
+          <input type="checkbox" id="isLocationResponseWaiting" disabled="disabled" /><span id="translation_locationResponseWaitingLabel_t01">translation_locationResponseWaitingLabel_t01</span><script>makeTranslation("translation_locationResponseWaitingLabel_t01");</script><br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="GeoHack" href="javascript:geohack()">GeoHack</a>
+        </td>
+	    </tr>
+	  <tr>
+	    <td rowspan="2">&nbsp;</td>
+	    <td align="right"><span id="glossary_Latitude_g01"> glossary_Latitude_g01 </span><script>makeTranslation("glossary_Latitude_g01");</script>:</td>
+	    <td><select id="latdeg" onchange="changeCoordElement('lat','deg')"></select></td>
+	    <td>º</td>
+	    <td><select id="latmin" onchange="changeCoordElement('lat','min')"></select></td>
+	    <td>'</td>
+	    <td><select id="latsec" onchange="changeCoordElement('lat','sec')"></select></td>
+	    <td>''</td>
+	    <td><select id="latdir" onchange="changeCoordElement('lat','dir')">
+	      <option>N</option>
+	      <option>S</option>
+	    </select></td>
+	    <td><input type="text" id="latdec" onchange="changeCoordElement('lat','dec')" size="6"/></td>
+	    </tr>
+	  <tr>
+	    <td align="right"><span id="glossary_Longitude_g01"> glossary_Longitude_g01 </span><script>makeTranslation("glossary_Longitude_g01");</script>:</td>
+	    <td><select id="lngdeg" onchange="changeCoordElement('lng','deg')"></select></td>
+	    <td>º</td>
+	    <td><select id="lngmin" onchange="changeCoordElement('lng','min')"></select></td>
+	    <td>'</td>
+	    <td><select id="lngsec" onchange="changeCoordElement('lng','sec')"></select></td>
+	    <td>''</td>
+	    <td><select id="lngdir" onchange="changeCoordElement('lng','dir')">
+	      <option>E</option>
+	      <option>W</option>
+	    </select></td>
+	    <td><input type="text" id="lngdec" onchange="changeCoordElement('lng','dec')" size="6" /></td>
+	    </tr>
+</table>
+    </td>
+  </tr>
+<tr>
+  <td>  
+<table>
+            
+            <tr>
+              <td colspan="14"><strong><span id="translation_datetimeLabel_t01">translation_datetimeLabel_t01</span><script>makeTranslation("translation_datetimeLabel_t01");</script></strong></td>
+        </tr>
+            <tr>
+              <td align="right">&nbsp;</td>
+              <td colspan="13"><span id="UTCString">UTCString</span></td>
+        </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td colspan="2"><input type="checkbox" id="UTCLeapYear" disabled="disabled" />
+                <span id="glossary_LeapYear_g01"> glossary_LeapYear_g01 </span><script>makeTranslation("glossary_LeapYear_g01");</script></td>
+              <td colspan="11" align="center"><span id="glossary_JulianDate_g01"> glossary_JulianDate_g01 </span><script>makeTranslation("glossary_JulianDate_g01");</script>: <input type="text" id="JulianDate" onchange="changeJulianDate()" size="15"/></td>
+        </tr>
+            <tr>
+              <td align="right">UTC:</td>
+              <td align="right"><input type="text" id="UTCYear" onchange="changeUTCYear()" size="2"/></td>
+              <td><select id="UTCEra" onchange="changeUTCEra()">
+                <option>BCE</option>
+                <option selected="selected">CE</option>
+                </select></td>
+              <td><span id="select_month_UTCMonth_s01">select_month_UTCMonth_s01</span><script>makeTranslation("select_month_UTCMonth_s01","onchange=\"changeUTCMonth()\"");</script></td>
+              <td><select id="UTCDate" onchange="changeUTCDate()"></select></td>
+              <td>-</td>
+              <td><select id="UTCHours" onchange="changeUTCHours()"></select></td>
+              <td>:</td>
+              <td><select id="UTCMinutes" onchange="changeUTCMinutes()"></select></td>
+              <td>:</td>
+              <td><select id="UTCSeconds" onchange="changeUTCSeconds()"></select></td>
+              <td>,</td>
+              <td><input type="text" id="UTCMilliseconds" onchange="changeUTCMilliseconds()" size="1" /></td>
+              <td><span id="select_week_UTCDay_s01">select_week_UTCDay_s01</span><script>makeTranslation("select_week_UTCDay_s01","disabled=\"disabled\"");</script></td>
+        </tr>
+            <tr>
+              <td align="right">Local:</td>
+              <td align="right"><input type="text" id="LocalYear" onchange="changeLocalYear()" size="2" /></td>
+              <td><select id="LocalEra" onchange="changeLocalEra()">
+                <option>BCE</option>
+                <option selected="selected">CE</option>
+                </select></td>
+              <td><span id="select_month_LocalMonth_s01">select_month_LocalMonth_s01</span><script>makeTranslation("select_month_LocalMonth_s01","onchange=\"changeLocalMonth()\"");</script></td>
+              <td><select id="LocalDate" onchange="changeLocalDate()"></select></td>
+              <td>-</td>
+              <td><select id="LocalHours" onchange="changeLocalHours()"></select></td>
+              <td>:</td>
+              <td><select id="LocalMinutes" onchange="changeLocalMinutes()"></select></td>
+              <td>:</td>
+              <td><select id="LocalSeconds" onchange="changeLocalSeconds()"></select></td>
+              <td>,</td>
+              <td><input type="text" id="LocalMilliseconds" onchange="changeLocalMilliseconds()" size="1" /></td>
+              <td><span id="select_week_LocalDay_s01">select_week_LocalDay_s01</span><script>makeTranslation("select_week_LocalDay_s01","disabled=\"disabled\"");</script></td>
+        </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td colspan="2"><input type="checkbox" id="LocalLeapYear" disabled="disabled" />
+                <span id="glossary_LeapYear_g02"> glossary_LeapYear_g02 </span><script>makeTranslation("glossary_LeapYear_g02");</script></td>
+              <td colspan="11" align="center"><input type="checkbox" id="DaylightSavingTime" disabled="disabled" onchange="changeDaylightSavingTime()"/>
+                <span id="glossary_DaylightSavingTime_g01"> glossary_DaylightSavingTime_g01 </span><script>makeTranslation("glossary_DaylightSavingTime_g01");</script></td>
+        </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td colspan="2">&nbsp;</td>
+              <td colspan="11"><span id="translation_timezoneAdjustLabel_t01">translation_timezoneAdjustLabel_t01</span><script>makeTranslation("translation_timezoneAdjustLabel_t01");</script>: <input type="text" id="TimezoneAdjust" size="1" onfocus="focusTZAdjust()" onchange="changeTZAdjust()" /> (<span id="translation_minutesLabel_t01">translation_minutesLabel_t01</span><script>makeTranslation("translation_minutesLabel_t01");</script>)</td>
+        </tr>
+            <tr>
+              <td align="right">&nbsp;</td>
+              <td colspan="13"><span id="LocalString">LocalString</span></td>
+        </tr>
+      </table>
+    
+    </td>
+</tr>
+<tr>
+<td align="center">
+<table>
+<tr>
+<td align="right">&nbsp;</td>
+              <td>&nbsp;<span id="translation_yearLabel_t01">translation_yearLabel_t01</span><script>makeTranslation("translation_yearLabel_t01");</script>&nbsp;</td>
+              <td>&nbsp;<span id="translation_monthLabel_t01">translation_monthLabel_t01</span><script>makeTranslation("translation_monthLabel_t01");</script>&nbsp;</td>
+              <td>&nbsp;<span id="translation_dayLabel_t01">translation_dayLabel_t01</span><script>makeTranslation("translation_dayLabel_t01");</script>&nbsp;</td>
+              <td>&nbsp;<span id="translation_hourLabel_t01">translation_hourLabel_t01</span><script>makeTranslation("translation_hourLabel_t01");</script>&nbsp;</td>
+              <td>&nbsp;<span id="translation_minuteLabel_t01">translation_minuteLabel_t01</span><script>makeTranslation("translation_minuteLabel_t01");</script>&nbsp;</td>
+              <td>&nbsp;<span id="translation_secondLabel_t01">translation_secondLabel_t01</span><script>makeTranslation("translation_secondLabel_t01");</script>&nbsp;</td>
+              </tr>
+            <tr>
+              <td align="right"><span id="translation_bystepLabel_t01">translation_bystepLabel_t01</span><script>makeTranslation("translation_bystepLabel_t01");</script>: <input type="radio" name="runmode" id="rStep" value="radio" onclick="clickSetRunModeNow(false)" /></td>
+              <td align="center"><input type="radio" name="step" id="sYear" value="radio" onchange="changeStepPanelValue()" /></td>
+              <td align="center"><input type="radio" name="step" id="sMonth" value="radio"  onchange="changeStepPanelValue()"/></td>
+              <td align="center"><input name="step" type="radio" id="sDay" value="radio" checked="checked" onchange="changeStepPanelValue()" /></td>
+              <td align="center"><input type="radio" name="step" id="sHours" value="radio" onchange="changeStepPanelValue()" /></td>
+              <td align="center"><input type="radio" name="step" id="sMinutes" value="radio" onchange="changeStepPanelValue()" /></td>
+              <td align="center"><input type="radio" name="step" id="sSeconds" value="radio" onchange="changeStepPanelValue()" /></td>
+              </tr>
+            <tr>
+              <td align="right"><span id="translation_nowLabel_t01">translation_nowLabel_t01</span><script>makeTranslation("translation_nowLabel_t01");</script>: <input name="runmode" type="radio" id="rNow" value="radio" checked="checked" onclick="clickSetRunModeNow(true)" /></td>
+              <td align="center">&nbsp;</td>
+              <td align="center">&nbsp;</td>
+              <td align="center">&nbsp;</td>
+              <td align="center">&nbsp;</td>
+              <td align="center">&nbsp;</td>
+              <td align="center">&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="7" align="center">
+                <table>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td><input type="button" class="RunStop" value="Run" onclick="clickRunStop()" /></td>
+                    <td>&nbsp;</td>
+                    </tr>
+                  <tr>
+                    <td><input type="button" value="-" onclick="clickPrev()" /></td>
+                    <td><input type="button" value="Now" onclick="clickNow()" /></td>
+                    <td><input type="button" value="+" onclick="clickNext()" /></td>
+                    </tr>
+                  </table>
+                </td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+  <hr />
+  <div id="footer" style="display: flex; justify-content: center;"></div>
+</body>
+</html>

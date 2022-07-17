@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Geolocation</title>
+<script language="javascript" src="DOMHelper.js"></script>
+<script language="javascript" src="Angle.js"></script>
+<script language="javascript" src="GeoLocation.js"></script>
+  <script src="GitHubRepository.js"></script>
+</head>
+  <body onload="GitHubRepository('footer', 'sergiolindau', 'Computus', 'Sergio Lindau', 2017);">
+  <h1 align="center">GeoLocation Test</h1>
+<table width="0%" border="0">
+  <tr>
+    <td align="right">Latitude:</td>
+    <td><input type="text" id="latdegreedecimal"/></td>
+  </tr>
+  <tr>
+    <td align="right">Longitude:</td>
+    <td><input type="text" id="lngdegreedecimal"/></td>
+  </tr>
+  </table>
+<script language="javascript">
+var test;
+var TheLocation = new GeoLocation();
+TheLocation.onset = function(pos){ 
+	document.getElementById("latdegreedecimal").value = pos.lat;
+	document.getElementById("lngdegreedecimal").value = pos.lng;
+/*	test = new Angle(pos.lat);
+	console.log(test.getSign());
+	console.log(test.getDegree());
+	console.log(test.getMinute());
+	console.log(test.getSecond());
+	console.log(test.getSign()*(test.getDegree()+test.getMinute()/60+test.getSecond()/3600 ) )
+*/
+};
+TheLocation.getLocation();
+</script>
+  <hr />
+  <div id="footer" style="display: flex; justify-content: center;"></div>
+  </body>
+</html>

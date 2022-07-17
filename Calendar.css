@@ -1,0 +1,231 @@
+:root {
+  --default-font-family: "Lucida Console", Monaco, monospace;
+  --default-font-color: rgb(51, 51, 51);
+  --default-background: rgb(255, 255, 255);
+  --default-border-radius: 15px;
+  --default-arrow-color: rgb(185, 185, 185);
+  --default-arrow-color-hover: rgb(55, 55, 55);
+  --sunday-color: rgb(255, 0, 0);
+  --sunday-background: rgb(255, 204, 204);
+  --dayoff-background: rgb(221, 136, 221);
+  --celebration-background: rgb(170, 170, 255);
+  --today-background: rgb(226, 226, 120);
+  --year-input-border-color: rgb(255, 255, 4);
+  --thismonth-hover-background: rgb(128, 128, 128);
+  --othermonth-background: rgb(204, 204, 204);
+  --othermonth-color: rgb(136, 136, 136);
+  --moonpanel-background: rgb(238, 238, 170);
+  --weekheader-backgroung: rgb(204, 204, 136);
+  --border-color: rgb(221, 221, 221);
+  --border-line-width: 2px;
+  --date-font-size: 0.875em;
+  --moonpanel-font-size: 0.875em;
+  --holidaypanel-font-size: 0.75em;
+  --sheet-padding: 7px;
+  --monthfooter-panel-padding: 3px;
+}
+
+body {
+  background: rgb(63,63,255)
+}
+
+table.oldcal {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: var(--border-line-width) solid var(--border-color);
+}
+
+.oldcal td {
+  padding: var(--sheet-padding);
+}
+
+
+.monthheader,
+.weekheader,
+.monthsheet,
+.monthsheet td {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: var(--border-line-width) solid var(--border-color);
+}
+
+.calendar-page td,
+.monthheader,
+.monthsheet td,
+.monthsheet th {
+  padding: var(--sheet-padding);
+}
+
+.calendar-page td {
+  vertical-align: top;
+}
+
+.simple-text {
+  background: var(--default-background);
+  text-align: center;
+  font-family: var(--default-font-family);
+  color: var(--default-font-color);
+  border-radius: var(--default-border-radius);
+}
+
+.calendar-header,
+.monthheader {
+  display: flex;
+  justify-content: center;
+  /* horizontal */
+  align-items: center;
+  /* vertical */
+}
+
+.calendar-year {
+  margin: 3px;
+  display: inline;
+  padding: 22px;
+  background: var(--default-background);
+  text-align: center;
+  width: 3em;
+  font-size: 2em;
+  margin: 3px;
+  font-family: var(--default-font-family);
+  color: var(--default-font-color);
+  border-radius: var(--default-border-radius);
+  border: none;
+}
+
+input.calendar-year:hover {
+  margin: 3px;
+  padding: 22px;
+  background: var(--today-background);
+}
+
+.thismonth,
+.monthname,
+.weekheader,
+.sunday {
+  background: var(--default-background);
+  text-align: center;
+  font-family: var(--default-font-family);
+  font-size: var(--date-font-size);
+  color: var(--default-font-color);
+  border-radius: var(--default-border-radius);
+}
+
+.thismonth:hover {
+  background: var(--thismonth-hover-background);
+  cursor: pointer;
+}
+
+.weekheader {
+  background: var(--weekheader-backgroung);
+  color: var(--default-font-color);
+}
+
+.sunday {
+  background: var(--sunday-background);
+  color: var(--sunday-color);
+}
+
+.dayoff {
+  background: var(--dayoff-background);
+}
+
+.celebration {
+  background: var(--celebration-background);
+}
+
+.today {
+  background: var(--today-background);
+}
+
+.othermonth {
+  background: var(--othermonth-background);
+  text-align: center;
+  font-family: var(--default-font-family);
+  font-size: var(--date-font-size);
+  color: var(--othermonth-color);
+}
+
+.moonpanel,
+.holidaypanel {
+  padding: var(--monthfooter-panel-padding);
+  text-align: left;
+  font-family: var(--default-font-family);
+  color: var(--default-font-color);
+}
+
+.moonpanel {
+  background: var(--moonpanel-background);
+  text-align: center;
+  font-size: var(--moonpanel-font-size);
+}
+
+.holidaypanel {
+  background: var(--default-background);
+  font-size: var(--holidaypanel-font-size);
+}
+
+/* data-tooltip */
+[data-tooltip] {
+  position: relative;
+  cursor: pointer;
+}
+
+[data-tooltip]:before {
+  content: attr(data-tooltip);
+  display: none;
+  position: absolute;
+  top: 20px;
+  width: 150px;
+  z-index: 100;
+  padding: 10px;
+  text-decoration: none;
+  font: var(--default-font-family);
+  border: 1px solid grey;
+  background: white;
+  color: black;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px grey;
+}
+
+[data-tooltip]:hover:before {
+  display: inline-block;
+}
+
+.arrow-left-01 {
+  border-top: 30px solid transparent;
+  border-right: 30px solid var(--default-arrow-color);
+  border-bottom: 30px solid transparent;
+}
+
+.arrow-left-01:hover {
+  border-right: 30px solid var(--default-arrow-color-hover);
+  cursor: pointer;
+}
+
+.arrow-right-01 {
+  border-top: 30px solid transparent;
+  border-left: 30px solid var(--default-arrow-color);
+  border-bottom: 30px solid transparent;
+}
+
+.arrow-right-01:hover {
+  border-left: 30px solid var(--default-arrow-color-hover);
+  cursor: pointer;
+}
+
+.newmoon-icon::before {
+  content: '🌑';
+}
+
+.firstquarter-icon::before {
+  content: '🌗';
+}
+
+.fullmoon-icon::before {
+  content: '🌕';
+}
+
+.lastquarter-icon::before {
+  content: '🌓';
+}
+

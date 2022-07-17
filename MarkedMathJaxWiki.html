@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <script src="Computus.js"></script>
+  <script src="Charts.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [              // start/end delimiter pairs for in-line math
+//          ['\\(', '\\)']
+          ['$$', '$$']
+
+        ],
+        displayMath: [             // start/end delimiter pairs for display math
+          ['$$$', '$$$'],
+        ],
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/latest.js?tex-svg.js"></script>
+    
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <script src="parseURI.js"></script>
+  <script src="MarkedMathJaxWiki.js"></script>
+  <script src="GitHubRepository.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.0/build/styles/default.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.0/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body onload="MarkedMathJaxWiki('content','doc/README.md', true); GitHubRepository('footer', 'sergiolindau', 'Computus', 'Sergio Lindau', 2017)">
+  <div id="content"></div>
+  <hr />
+  <div id="footer" style="display: flex; justify-content: center;"></div>
+</body>
+
+</html>

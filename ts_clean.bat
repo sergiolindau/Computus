@@ -1,0 +1,29 @@
+del DOMHelper.js
+del CanvasGraph.js
+del MITLicense.js
+del Angle.js
+del GeoLocation.js
+del GeoLocationPanel.js
+del timeString.js
+del Cities.js
+del Tick.js
+del DateTime.js
+del DateTimePanel.js
+del CalSheet.js
+del Calendar.js
+del Calendar_pt_BR.js
+del Computus.js
+del moonPhaseTable.js
+del StringData.js
+del Language.js
+del Charts.js
+del MarkedMathJaxWiki.js
+
+del parseURI.js
+del weekdayTest.js
+del GitHubRepository.js
+del writePerpetualCycle.js
+del makeFileMenu.js
+
+del fileMenu_build.js
+del XMarked_build.js

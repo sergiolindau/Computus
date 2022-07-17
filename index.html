@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <title>Computus</title>
+
+  <script src="Computus.js"></script>
+  <script src="DOMHelper.js"></script>
+  <script src="MITLicense.js"></script>
+
+  <script src="StringData.js"></script>
+  <script src="Language.js"></script>
+
+  <script src="Angle.js"></script>
+  <script src="GeoLocation.js"></script>
+  <script src="GeoLocationPanel.js"></script>
+
+  <script src="DateTime.js"></script>
+  <script src="Tick.js"></script>
+  <script src="DateTimeTick.js"></script>
+  <script src="DateTimePanel.js"></script>
+
+  <script src="CalSheet.js"></script>
+
+  <script src="makeFileMenu.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js?config=TeX-MML-AM_CHTML"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="parseURI.js"></script>
+  <script src="MarkedMathJaxWiki.js"></script>
+  <script src="GitHubRepository.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.0/build/styles/default.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.0/build/highlight.min.js"></script>
+  <!-- Individually load additional languages -->
+  <!-- <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.0/build/languages/go.min.js"></script> -->
+  
+</head>
+
+<body onload="MarkedMathJaxWiki('content','README.md'); GitHubRepository('footer', 'sergiolindau', 'Computus', 'Sergio Lindau', 2017);">
+  <h2><a href="https://github.com/sergiolindau/Computus" target="_blank"><pre>github.com/sergiolindau/Computus</pre></a></h2>
+  <script>
+var project_files = [
+	"Angle.js",
+	"CalSheet.js",
+	"CanvasGraph.js",
+ 	"Charts.js",
+	"Cities.js",
+ 	"Computus.js",
+	"DateTime.js",
+	"DateTimePanel.js",
+	"DateTimeTick.js",
+	"DOMHelper.js",
+	"GeoLocation.js",
+	"GeoLocationPanel.js",
+	"GitHubRepository.js",
+	"HttpRequest.js",
+	"Language.js",
+	"makeFileMenu.js",
+	"MarkedMathJaxWiki.js",
+	"MITLicense.js",
+	"moonPhaseTable.js",
+	"parseURI.js",
+	"StringData.js",
+	"Tick.js",
+	"timeString.js",
+	"weekdayTest.js",
+	"writePerpetualCycle.js",
+	"tsconfig.json",
+	"style.css",
+];
+makeFileMenu(project_files,"Source files");
+  </script>
+  <script>
+var html_files = [
+  "Calendar.html",
+  "ComputusSource.html",
+  "DateTime.html",
+  "DateTimePanel.html",
+  "EasterSunday.html",
+  "GeoLocation.html",
+  "GeoLocationPanel.html",
+  "LanguagePanel.html",
+  "MarkedMathJaxWiki.html?url=doc%2FREADME.md",
+  "MoonYear.html",
+  "PerpetualCycle.html",
+  "Sun.html",
+  "Tick.html",
+];
+makeFileMenu(html_files, "Tests");
+  </script>
+  <div id="content"></div>
+  <hr />
+  <div id="footer" style="display: flex; justify-content: center;"></div>
+</body>
+
+</html>

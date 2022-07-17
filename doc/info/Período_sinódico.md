@@ -1,0 +1,5 @@
+O ***período sinódico*** é o tempo que um astro leva a reaparecer no mesmo local em sucessivas conjunções com o Sol, sendo que é o período orbital aparente (a partir da Terra) desse astro. Difere do [[Período sideral|período sideral]] que é o tempo que um astro leva para fazer uma órbita completa em torno de outro, tendo as estrelas fixas como referência.
+
+## Wikipédia
+
+[Português](https://pt.wikipedia.org/wiki/Per%C3%ADodo_sin%C3%B3dico) - [Español](https://es.wikipedia.org/wiki/Per%C3%ADodo_orbital#Otros_per%C3%ADodos_relacionados_con_el_per%C3%ADodo_orbital) - [Italiano](https://it.wikipedia.org/wiki/Periodo_di_rivoluzione#Tipologia) - [English](https://en.wikipedia.org/wiki/Orbital_period#Synodic_period) - [Français](https://fr.wikipedia.org/wiki/P%C3%A9riode_synodique) - [Deutsch](https://de.wikipedia.org/wiki/Synodische_Periode)

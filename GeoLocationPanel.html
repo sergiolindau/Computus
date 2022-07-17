@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>GeoLocation Panel</title>
+    <script language="javascript" type="text/javascript" src="Computus.js"></script>
+    <script language="javascript" type="text/javascript" src="DOMHelper.js"></script>
+	<script language="javascript" type="text/javascript" src="Angle.js"></script>
+	<script language="javascript" type="text/javascript" src="GeoLocation.js"></script>
+	<script language="javascript" type="text/javascript" src="StringData.js"></script>
+	<script language="javascript" type="text/javascript" src="Language.js"></script>
+	<script language="javascript" type="text/javascript" src="GeoLocationPanel.js"></script>
+  <script src="GitHubRepository.js"></script>
+</head>
+<h1 align="center">GeoLocation Panel</h1>
+<body onload="GitHubRepository('footer', 'sergiolindau', 'Computus', 'Sergio Lindau', 2017);">
+<table width="0%" border="1">
+<tr>
+    <td><strong><span id="translation_languageLabel_t01">translation_languageLabel_t01</span><script>makeTranslation("translation_languageLabel_t01");</script></strong> <span id="select_language"> select_language </span><script>makeTranslation("select_language");</script> (<span id="translation_shortLanguageDescription_t01">translation_shortLanguageDescription_t01</span><script>makeTranslation("translation_shortLanguageDescription_t01");</script>)</td>
+  </tr>
+<tr>
+    <td><table>
+      <tr>
+	    <td colspan="10" align="left"><strong><span id="translation_locationLabel_t01"> translation_locationLabel_t01 </span><script>makeTranslation("translation_locationLabel_t01");</script></strong> (<span id="glossary_GPL_g01"> glossary_GPL_g01 </span><script>makeTranslation("glossary_GPL_g01");</script>)</td>
+        <td rowspan="3">
+          <input type="checkbox" id="isLocationResponse" onclick="clickCurrentLocation()" /><span id="translation_currentLocationLabel_t01">translation_currentLocationLabel_t01</span><script>makeTranslation("translation_currentLocationLabel_t01");</script><br />
+          <input type="checkbox" id="isLocationResponseWaiting" disabled="disabled" /><span id="translation_locationResponseWaitingLabel_t01">translation_locationResponseWaitingLabel_t01</span><script>makeTranslation("translation_locationResponseWaitingLabel_t01");</script><br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="GeoHack" href="javascript:geohack()">GeoHack</a>
+        </td>
+	    </tr>
+	  <tr>
+	    <td rowspan="2">&nbsp;</td>
+	    <td align="right"><span id="glossary_Latitude_g01"> glossary_Latitude_g01 </span><script>makeTranslation("glossary_Latitude_g01");</script>:</td>
+	    <td><select id="latdeg" onchange="changeCoordElement('lat','deg')"></select></td>
+	    <td>º</td>
+	    <td><select id="latmin" onchange="changeCoordElement('lat','min')"></select></td>
+	    <td>'</td>
+	    <td><select id="latsec" onchange="changeCoordElement('lat','sec')"></select></td>
+	    <td>''</td>
+	    <td><select id="latdir" onchange="changeCoordElement('lat','dir')">
+	      <option>N</option>
+	      <option>S</option>
+	    </select></td>
+	    <td><input type="text" id="latdec" onchange="changeCoordElement('lat','dec')" size="6"/></td>
+	    </tr>
+	  <tr>
+	    <td align="right"><span id="glossary_Longitude_g01"> glossary_Longitude_g01 </span><script>makeTranslation("glossary_Longitude_g01");</script>:</td>
+	    <td><select id="lngdeg" onchange="changeCoordElement('lng','deg')"></select></td>
+	    <td>º</td>
+	    <td><select id="lngmin" onchange="changeCoordElement('lng','min')"></select></td>
+	    <td>'</td>
+	    <td><select id="lngsec" onchange="changeCoordElement('lng','sec')"></select></td>
+	    <td>''</td>
+	    <td><select id="lngdir" onchange="changeCoordElement('lng','dir')">
+	      <option>E</option>
+	      <option>W</option>
+	    </select></td>
+	    <td><input type="text" id="lngdec" onchange="changeCoordElement('lng','dec')" size="6" /></td>
+	    </tr>
+</table>
+    </td>
+  </tr>
+</table>
+
+<script language="javascript">
+	initLocationPanel();
+</script>
+  <hr />
+  <div id="footer" style="display: flex; justify-content: center;"></div>
+</body>
+</html>

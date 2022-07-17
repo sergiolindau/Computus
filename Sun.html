@@ -1,0 +1,726 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Sun Calculator</title>
+    <script language="javascript" type="text/javascript" src="Cities.js"></script>
+    <script language="javascript" type="text/javascript" src="DOMHelper.js"></script>
+    <script language="javascript" type="text/javascript" src="timeString.js"></script>
+    <script language="javascript" type="text/javascript" src="Computus.js"></script>
+  <script src="GitHubRepository.js"></script>
+    <script>
+
+/******************************************************************************/
+//***********************************************************************/
+//*	DATA STRUCTURES									*/
+//***********************************************************************/
+
+	function ans(daySave,value) {
+		this.daySave = daySave;
+		this.value = value;
+	}
+
+//*********************************************************************/
+
+
+	var YesNo = new Array(); // Daylight Saving array
+	i=0;
+	YesNo[i++] = new ans("No",0);
+	YesNo[i++] = new ans("Yes",60);
+
+//*********************************************************************/
+
+
+	function setLatLong(latLongForm, index) {
+		// Decimal degrees are passed in the array.  Temporarily store these 
+		// degs in lat and lon deg and have convLatLong modify them.
+
+		latLongForm["latDeg"].value = City[index].lat;
+		latLongForm["lonDeg"].value = City[index].lng;
+	
+		// These are needed to prevent iterative adding of min and sec when 
+		// set button is clicked.
+
+		latLongForm["latMin"].value = 0;
+		latLongForm["latSec"].value = 0;
+		latLongForm["lonMin"].value = 0;
+		latLongForm["lonSec"].value = 0;
+		
+		//call convLatLong to convert decimal degrees into table form.
+
+		convLatLong(latLongForm);
+
+		//Local time zone value set in table
+
+		latLongForm["hrsToGMT"].value =  City[index].tz;
+	}
+
+
+//convLatLong converts any type of lat/long input
+//into  the table form and then handles bad input
+//it is nested in the calcSun function.
+
+	function convLatLong(latLongForm) {
+		if(latLongForm["latDeg"].value == "") {
+			latLongForm["latDeg"].value = 0;
+		}
+		if(latLongForm["latMin"].value == "") {
+			latLongForm["latMin"].value = 0;
+		}
+		if(latLongForm["latSec"].value == "") {
+			latLongForm["latSec"].value = 0;
+		}
+		if(latLongForm["lonDeg"].value == "") {
+			latLongForm["lonDeg"].value = 0;
+		}
+		if(latLongForm["lonMin"].value == "") {
+			latLongForm["lonMin"].value = 0;
+		}
+		if(latLongForm["lonSec"].value == "") {
+			latLongForm["lonSec"].value = 0;
+		}
+
+		var neg = 0;
+		if(latLongForm["latDeg"].value.charAt(0) == '-') {
+			neg = 1;
+		}
+
+		if(neg != 1) {
+			var latSeconds = (parseFloat(latLongForm["latDeg"].value))*3600 
+				+ parseFloat(latLongForm["latMin"].value)*60 
+				+ parseFloat(latLongForm["latSec"].value)*1;
+
+			latLongForm["latDeg"].value = Math.floor(latSeconds/3600);
+			latLongForm["latMin"].value = Math.floor((latSeconds
+				- (parseFloat(latLongForm["latDeg"].value)*3600))/60);
+			latLongForm["latSec"].value = Math.floor((latSeconds
+				- (parseFloat(latLongForm["latDeg"].value)*3600) 
+				- (parseFloat(latLongForm["latMin"].value)*60)) + 0.5);
+		}
+		else if(parseFloat(latLongForm["latDeg"].value) > -1) {
+			var latSeconds = parseFloat(latLongForm["latDeg"].value)*3600 
+				- parseFloat(latLongForm["latMin"].value)*60 
+				- parseFloat(latLongForm["latSec"].value)*1;
+
+			latLongForm["latDeg"].value = "-0";
+			latLongForm["latMin"].value = Math.floor((-latSeconds)/60);
+			latLongForm["latSec"].value = Math.floor( (-latSeconds 
+				- (parseFloat(latLongForm["latMin"].value)*60)) + 0.5);
+
+		}
+		else {
+			var latSeconds = parseFloat(latLongForm["latDeg"].value)*3600 
+				- parseFloat(latLongForm["latMin"].value)*60 
+				- parseFloat(latLongForm["latSec"].value)*1;
+
+			latLongForm["latDeg"].value = Math.ceil(latSeconds/3600);
+			latLongForm["latMin"].value = Math.floor((-latSeconds
+				+ (parseFloat(latLongForm["latDeg"].value)*3600))/60);
+			latLongForm["latSec"].value = Math.floor((-latSeconds
+				+ (parseFloat(latLongForm["latDeg"].value)*3600) 
+				- (parseFloat(latLongForm["latMin"].value)*60)) + 0.5);
+		}
+
+		neg = 0;
+		if(latLongForm["lonDeg"].value.charAt(0) == '-') {
+			neg = 1;
+		}
+
+		if(neg != 1) {
+			var lonSeconds = parseFloat(latLongForm["lonDeg"].value)*3600 
+				+ parseFloat(latLongForm["lonMin"].value)*60 
+				+ parseFloat(latLongForm["lonSec"].value)*1;
+			latLongForm["lonDeg"].value = Math.floor(lonSeconds/3600);
+			latLongForm["lonMin"].value = Math.floor((lonSeconds
+				- (parseFloat(latLongForm["lonDeg"].value)*3600))/60);
+			latLongForm["lonSec"].value = Math.floor((lonSeconds
+				- (parseFloat(latLongForm["lonDeg"].value)*3600)
+				- (parseFloat(latLongForm["lonMin"].value))*60) + 0.5);
+		}
+		else if(parseFloat(latLongForm["lonDeg"].value) > -1) {
+			var lonSeconds = parseFloat(latLongForm["lonDeg"].value)*3600 
+				- parseFloat(latLongForm["lonMin"].value)*60 
+				- parseFloat(latLongForm["lonSec"].value)*1;
+
+			latLongForm["lonDeg"].value = "-0";
+			latLongForm["lonMin"].value = Math.floor((-lonSeconds)/60);
+			latLongForm["lonSec"].value = Math.floor((-lonSeconds
+				- (parseFloat(latLongForm["lonMin"].value)*60)) + 0.5);
+		}
+		else {
+			var lonSeconds = parseFloat(latLongForm["lonDeg"].value)*3600 
+				- parseFloat(latLongForm["lonMin"].value)*60 
+				- parseFloat(latLongForm["lonSec"].value)*1;
+			latLongForm["lonDeg"].value = Math.ceil(lonSeconds/3600);
+			latLongForm["lonMin"].value = Math.floor((-lonSeconds
+				+ (parseFloat(latLongForm["lonDeg"].value)*3600))/60);
+			latLongForm["lonSec"].value = Math.floor((-lonSeconds
+				+ (parseFloat(latLongForm["lonDeg"].value)*3600)
+				- (parseFloat(latLongForm["lonMin"].value)*60)) + 0.5);
+		}
+
+		//Test for invalid lat/long input
+
+		if(latSeconds > 324000) {
+			alert("You have entered an invalid latitude.\n  Setting lat = 89.");
+			latLongForm["latDeg"].value = 89;
+			latLongForm["latMin"].value = 0;
+			latLongForm["latSec"].value = 0;
+		}
+		if(latSeconds < -324000) {
+			alert("You have entered an invalid latitude.\n  Setting lat = -89.");
+			latLongForm["latDeg"].value = -89;
+			latLongForm["latMin"].value = 0;
+			latLongForm["latSec"].value = 0;
+		}
+		if(lonSeconds > 648000) {
+			alert("You have entered an invalid longitude.\n Setting lon = 180.");
+			latLongForm["lonDeg"].value = 180;
+			latLongForm["lonMin"].value = 0;
+			latLongForm["lonSec"].value = 0;
+		}
+		if(lonSeconds < -648000) {
+			alert("You have entered an invalid longitude.\n Setting lon = -180.");
+			latLongForm["lonDeg"].value = -180;
+			latLongForm["lonMin"].value = 0;
+			latLongForm["lonSec"].value =0;
+		}
+	}
+
+
+
+//*********************************************************************/
+
+// Returns the decimal latitude from the degrees, minutes and seconds entered 
+// into the form	
+
+	function getLatitude(latLongForm) {
+		var neg = 0;
+		var strLatDeg = latLongForm["latDeg"].value;
+		var degs = parseFloat(latLongForm["latDeg"].value);
+		if (latLongForm["latDeg"].value.charAt(0) == '-') {
+			neg = 1;
+		}
+
+		if (strLatDeg.indexOf(".") != -1) {
+			latLongForm["latMin"].value = 0;
+			latLongForm["latSec"].value = 0;
+		}
+
+		if(latLongForm["latMin"].value == "") {
+			latLongForm["latMin"].value = 0;
+		}
+		if(latLongForm["latSec"].value == "") {
+			latLongForm["latSec"].value = 0;
+		}
+
+		var mins = parseFloat(latLongForm["latMin"].value);
+
+		var secs = parseFloat(latLongForm["latSec"].value);
+
+		if(neg != 1) {
+			var decLat = degs + (mins / 60) + (secs / 3600);
+		}
+		else if(neg == 1) {
+			var decLat = degs - (mins / 60) - (secs / 3600);
+		}
+		else {
+			return -9999;
+		}
+		return decLat;
+	}	
+
+//*********************************************************************/
+
+// Returns the decimal longitude from the degrees, minutes and seconds entered 
+// into the form	
+
+	function getLongitude(latLongForm) {
+		var neg = 0;
+		var strLonDeg = latLongForm["lonDeg"].value;
+		var degs = parseFloat(latLongForm["lonDeg"].value);
+		if (latLongForm["lonDeg"].value.charAt(0) == '-') {
+			neg = 1;
+		}
+
+		if (strLonDeg.indexOf(".") != -1) {
+			latLongForm["lonMin"].value = 0;
+			latLongForm["lonSec"].value = 0;
+		}
+
+		if(latLongForm["lonMin"].value == "") {
+			latLongForm["lonMin"].value = 0;
+		}
+		if(latLongForm["lonSec"].value == "") {
+			latLongForm["lonSec"].value = 0;
+		}
+
+		var mins = parseFloat(latLongForm["lonMin"].value);
+		var secs = parseFloat(latLongForm["lonSec"].value);
+		var decLon = degs + (mins / 60) + (secs / 3600);
+
+		if(neg != 1) {
+			var decLon = degs + (mins / 60) + (secs / 3600);
+		}
+		else if(neg == 1) {
+			var decLon = degs - (mins / 60) - (secs / 3600);
+		}
+		else {
+			return -9999;
+		}
+		return decLon;
+	}	
+
+//*********************************************************************/
+
+//	'isValidInput' makes sure valid input is entered before calculating
+//	the sunrise and sunset.  False is returned if an invalid entry was made,
+//	true if the entry is valid.
+
+	function isValidInput(dateTimeForm, latLongForm) {	
+		if (dateTimeForm["day"].value == "") {	//	see if the day field is empty
+			alert("You must enter a day before attempting the calculation.");
+			return false;
+		}
+		else if (dateTimeForm["year"].value == "") {	// see if year field is empty
+			alert("You must enter a year before attempting the calculation.");
+			return false;
+		}
+		else if (!Math.isPosInteger(dateTimeForm["day"].value) || dateTimeForm["day"].value == 0) {
+			alert("The day must be a positive integer.");
+			return false;
+		}
+		else if (!Math.isPosInteger(dateTimeForm["year"].value)) {
+			alert("The year must be a positive integer.");
+			return false;
+		}
+		else if (dateTimeForm["hour"].value == "") {	// see if hour field is empty
+			alert("You must enter a time before attempting the calculation.");
+			return false;
+		}
+		else if (!Math.isPosInteger(dateTimeForm["hour"].value) || 
+				!Math.isPosInteger(dateTimeForm["mins"].value) ||
+				!Math.isPosInteger(dateTimeForm["secs"].value))	{
+			alert("The time fields must contain positive integers.");
+			return false;
+		}
+
+		else if ( (dateTimeForm["hour"].value > 23) ) {
+			alert("Hour must be between 0 and 23.");
+			return false;
+		}
+		else if (dateTimeForm["mins"].value > 59) {
+			alert("Minutes must be between 0 and 59.");
+			return false;
+		}
+		else if (dateTimeForm["secs"].value > 59) {
+			alert("Seconds must be between 0 and 59.");
+			return false;
+		}
+
+//	For the non-February months see if the day entered is greater than
+//	the number of days in the selected month
+
+		else if ((dateTimeForm.mos.selectedIndex != 1) &&
+				(dateTimeForm["day"].value > Computus.monthdays(dateTimeForm["year"].value,dateTimeForm.mos.selectedIndex))
+				) {
+			alert("There are only " + Computus.monthdays(dateTimeForm["year"].value,dateTimeForm.mos.selectedIndex) + 
+			" days in " + Computus.monthTable['EN'][0][dateTimeForm.mos.selectedIndex] + ".");
+			return false;
+		}
+
+//	First see if the year entered is a leap year.  If so we have to make sure
+//	the days entered is <= 29.  If not a leap year we make sure that the days
+//	entered is <= 28.
+
+		else if (dateTimeForm.mos.selectedIndex == 1) {	//	 month selected is February 
+			if (Computus.isleap(dateTimeForm["year"].value)) {	//	year is a leap year
+				if (dateTimeForm["day"].value > (Computus.monthdays(dateTimeForm["year"].value,dateTimeForm.mos.selectedIndex))) {
+					alert("There are only " + 
+					(Computus.monthdays(dateTimeForm["year"].value,dateTimeForm.mos.selectedIndex)) + 
+					" days in " + Computus.monthTable['EN'][0][dateTimeForm.mos.selectedIndex] + ".");
+					return false;
+				}
+				else {
+					return true;
+				}
+			}
+			else {	//	year entered is not a leap year
+				if (dateTimeForm["day"].value > Computus.monthdays(dateTimeForm["year"].value,dateTimeForm.mos.selectedIndex)) {
+					alert("There are only " + 
+					Computus.monthdays(dateTimeForm["year"].value,dateTimeForm.mos.selectedIndex) + 
+					" days in " + Computus.monthTable['EN'][0][dateTimeForm.mos.selectedIndex] + ".");
+					return false;
+				}
+				else
+					return true;
+			}
+		}
+		else 
+			return true;	
+	}
+
+var dateObj = new Date();
+
+/**
+ * Name: calcSunData
+ * Purpose: Function called by form controls. Calculate time of sunrise
+ * and sunset for the entered date and location. In the special cases near
+ * earth's poles, the date of nearest sunrise and set are reported.
+ * Calculate solar position for the entered date, time and location.
+ * Results are reported in azimuth and elevation (in degrees) and cosine of
+ * solar zenith angle.
+ * @param {*} resultForm form for displaying results
+ * @param {*} latLongForm form for reading latitude and longitude data
+ * @param {*} dateTimeForm form for reading date and time data
+ * @returns none (fills riseSetForm text fields with results of calculations)
+ */
+function calcSunData(resultForm, latLongForm, dateTimeForm) {
+	var timepos = {};
+	if(latLongForm.cities.selectedIndex != 0) {
+		setLatLong(latLongForm, latLongForm.cities.selectedIndex);
+	}
+
+	timepos.latitude = getLatitude(latLongForm);
+	timepos.longitude = getLongitude(latLongForm);
+	timepos.zone  = parseFloat(latLongForm["hrsToGMT"].value);
+	timepos.year  = parseFloat(dateTimeForm["year"].value);
+	timepos.month = parseFloat(dateTimeForm.mos.selectedIndex);
+	timepos.date  = parseFloat(dateTimeForm["day"].value);
+	timepos.hours = parseFloat(dateTimeForm["hour"].value);
+	timepos.minutes = parseFloat(dateTimeForm["mins"].value);
+	timepos.seconds = parseFloat(dateTimeForm["secs"].value)
+	timepos.daysave = parseFloat(YesNo[latLongForm.dayAns.selectedIndex].value);
+
+	convLatLong(latLongForm);
+	if (isValidInput(dateTimeForm, latLongForm)) {
+		if(dateTimeForm.ampm[1].checked) {
+			timepos.hours += 12;
+		}
+		while (timepos.hours > 23) {
+			timepos.hours -= 24;
+		}
+
+		var result = Computus.sunData(timepos);
+
+		resultForm["time"].value = timeString.fromMinutes(timepos.hours*60+timepos.minutes+timepos.seconds/60);
+		dateTimeForm["hour"].value = timepos.hours + (timepos.daysave/60);
+		dateTimeForm["mins"].value = String(timepos.minutes).padStart(2,'0')
+		dateTimeForm["secs"].value = String(timepos.seconds).padStart(2,'0')
+
+		dateTimeForm.ampm[2].checked = 1;
+
+		if (!result.timings.nosunrise) { // Sunrise was found
+			resultForm["sunrise"].value = timeString.shortAMPM(result.timings.riseTimeLST, result.JD);
+			resultForm["utcsunrise"].value = timeString.appendDate(result.timings.riseTimeGMT, result.JD);
+		}
+
+		if (!result.timings.nosunset) { // Sunset was found
+			resultForm["sunset"].value = timeString.shortAMPM(result.timings.setTimeLST, result.JD);
+			resultForm["utcsunset"].value = timeString.appendDate(result.timings.setTimeGMT, result.JD);
+		}
+
+		resultForm["solnoon"].value = timeString.fromMinutes(result.timings.solNoonLST);
+		resultForm["utcsolnoon"].value = timeString.fromMinutes(result.timings.solNoonGMT);
+
+		resultForm["eqTime"].value = (Math.floor(100*result.timings.eqTime))/100;
+		resultForm["solarDec"].value = (Math.floor(100*(result.timings.solarDec)))/100;
+
+		if(result.timings.nosunrise) { 
+			resultForm["utcsunrise"].value = "";
+			if (result.timings.polarLightNorthDarkSouth) {
+				resultForm["sunrise"].value = timeString.AMPMDate(result.timings.riseTimeLST, result.timings.riseTimeJD);
+				resultForm["utcsunrise"].value = "prior sunrise";
+			}
+			else if (result.timings.polarDarkNorthLightSouth) {
+				resultForm["sunrise"].value = timeString.AMPMDate(result.timings.riseTimeLST, result.timings.riseTimeJD);
+				resultForm["utcsunrise"].value = "next sunrise";
+			}
+			else {
+				alert("Cannot Find Sunrise!");
+			}
+		}
+		if(result.timings.nosunset)
+		{ 
+			resultForm["utcsunset"].value = "";
+			if (result.timings.polarLightNorthDarkSouth) {
+				resultForm["sunset"].value = timeString.AMPMDate(result.timings.setTimeLST, result.timings.setTimeJD);
+				resultForm["utcsunset"].value = "next sunset";
+				resultForm["utcsolnoon"].value = "";
+			}
+			else if (result.timings.polarDarkNorthLightSouth) {
+				resultForm["sunset"].value = timeString.AMPMDate(result.timings.setTimeLST, result.timings.setTimeJD);
+				resultForm["utcsunset"].value = "prior sunset";
+				resultForm["solnoon"].value = "N/A";
+				resultForm["utcsolnoon"].value = "";
+			}
+			else {
+				alert ("Cannot Find Sunset!");
+			}
+		}
+
+
+
+		resultForm["eqTimeMidnight"].value = (Math.floor(100*result.sunposMidnight.eqTime))/100;
+		resultForm["solarDecMidnight"].value = (Math.floor(100*(result.sunposMidnight.solarDec)))/100;
+		if(result.sunposMidnight.astrotwilight) { // astronomical twilight	
+			resultForm["azimuthMidnight"].value = (Math.floor(100*result.sunposMidnight.azimuth))/100;
+			resultForm["elevationMidnight"].value = (Math.floor(100*result.sunposMidnight.elevation))/100;
+			resultForm["coszenMidnight"].value = (Math.floor(10000.0*(result.sunposMidnight.coszen)))/10000.0;
+		}
+		else { // do not report az & el after astro twilight
+			resultForm["azimuthMidnight"].value = "dark";
+			resultForm["elevationMidnight"].value = "dark";
+			resultForm["coszenMidnight"].value = 0.0;
+		}
+
+
+
+
+		resultForm["eqTimeNoon"].value = (Math.floor(100*result.sunposNoon.eqTime))/100;
+		resultForm["solarDecNoon"].value = (Math.floor(100*(result.sunposNoon.solarDec)))/100;
+		if(result.sunposNoon.astrotwilight) { // astronomical twilight	
+			resultForm["azimuthNoon"].value = (Math.floor(100*result.sunposNoon.azimuth))/100;
+			resultForm["elevationNoon"].value = (Math.floor(100*result.sunposNoon.elevation))/100;
+			resultForm["coszenNoon"].value = (Math.floor(10000.0*(result.sunposNoon.coszen)))/10000.0;
+		}
+		else { // do not report az & el after astro twilight
+			resultForm["azimuthNoon"].value = "dark";
+			resultForm["elevationNoon"].value = "dark";
+			resultForm["coszenNoon"].value = 0.0;
+		}
+
+
+
+		resultForm["eqTime"].value = (Math.floor(100*result.sunpos.eqTime))/100;
+		resultForm["solarDec"].value = (Math.floor(100*(result.sunpos.solarDec)))/100;
+		if(result.sunpos.astrotwilight) { // astronomical twilight	
+			resultForm["azimuth"].value = (Math.floor(100*result.sunpos.azimuth))/100;
+			resultForm["elevation"].value = (Math.floor(100*result.sunpos.elevation))/100;
+			resultForm["coszen"].value = (Math.floor(10000.0*(result.sunpos.coszen)))/10000.0;
+		}
+		else { // do not report az & el after astro twilight
+			resultForm["azimuth"].value = "dark";
+			resultForm["elevation"].value = "dark";
+			resultForm["coszen"].value = 0.0;
+		}
+
+
+	}
+	else { // end of IF isValidInput
+		resultForm["azimuth"].value = "error";
+		resultForm["elevation"].value = "error";
+		resultForm["eqTime"].value = "error";
+		resultForm["solarDec"].value = "error";
+		resultForm["coszen"].value = "error";
+	}
+}
+
+function calcForm(){calcSunData(sunData, cityLatLong, dateTime)}
+	</script>
+  </head>
+  <body onload="calcForm(); GitHubRepository('footer', 'sergiolindau', 'Computus', 'Sergio Lindau', 2017);">
+    <h1 align="center">Sunrise / Solar Noon / Sunset / Sun position</h1>
+    <form name="cityLatLong">
+      <center>
+        <table border="1">
+          <tr>
+            <td align="center">City:</td>
+            <td></td>
+            <td align="center">Deg:</td>
+            <td align="center">Min:</td>
+            <td align="center">Sec:</td>
+            <td align="center" colspan="2">
+              Time Zone
+            </td>
+          </tr>
+          <tr>
+          <td align="top">
+          <center>
+          <select name="cities" onchange="calcForm()">
+          <script>
+            for (i = 0; i < City.length; i++) {
+            if(City[i].name == "Boulder, CO")
+            {
+            document.writeln("<OPTION SELECTED>" + City[i].name);
+            }
+            else
+            document.writeln("<OPTION>" + City[i].name);
+            } 
+            
+          </script>
+          </select>
+          </center>
+          </td>
+          <td align="center">Lat:<br />
+          North = +<br />          
+          South = -</td>
+          <td><input type="text" name="latDeg" size="4" /></td>
+          <td><input type="text" name="latMin" size="4" /></td>
+          <td><input type="text" name="latSec" size="4" /></td>
+          <td rowspan=2 align="center">Offset<br />            to 
+          UTC:<br />
+          <input type="text" name="hrsToGMT" size="5" /></td>
+          <td rowspan=2 align="center">Daylight<br />Saving<br />Time:<br />
+          <select name="dayAns" onchange="calcForm()">
+          <script>
+            for(i=0; i < YesNo.length; i++)
+            {
+            	document.writeln("<OPTION>" + YesNo[i].daySave);
+            }
+          </script>
+          </select>
+          </td>
+          </tr>
+          <tr>
+            <td align="center">&nbsp;</td>
+            <td align="center">Long:<br />
+            West = -<br />
+            East = +</td>
+            <td><input type="text" name="lonDeg" size="4" /></td>
+            <td><input type="text" name="lonMin" size="4" /></td>
+            <td><input type="text" name="lonSec" size="4" /></td>
+          </tr>
+        </table>
+      </center>
+    </form>
+    <form name="dateTime">
+        <table align="center" border="1">
+          <tr>
+            <td align="center">Month:</td>
+            <td align="center">Date:</td>
+            <td align="center">Year:</td>
+            <td align="center">Time:</td>
+          </tr>
+          <tr>
+            <td>
+              <select name="mos" onchange="calcForm()">
+                <script>
+                      	thismonth = dateObj.getMonth();
+                     	today = dateObj.getDate(); 
+                     	for (i = 0; i < Computus.monthTable['EN'][0].length; i++) {
+                      	if (i == thismonth) {
+                      	document.writeln("<OPTION SELECTED>" + Computus.monthTable['EN'][0][i]);
+                     				}
+                  else {
+                  document.writeln("<OPTION>" + Computus.monthTable['EN'][0][i]);
+                  }
+                  }
+                  		
+                </script>
+              </select>
+            </td>
+            <script>
+              thisday = dateObj.getDate();
+              document.writeln("<td><center><input type=\"text\" name=\"day\" size=\"2\" value=\"" + thisday + "\"></td>");
+              thisYear = dateObj.getFullYear();
+              document.writeln("<td><center><input type=\"text\" name=\"year\" size=\"4\"value=\"" + thisYear*1 + "\"></td>");
+            </script>
+            <td>
+              <center>
+                <script>
+                    nowhour = dateObj.getHours();
+                  nowmins = dateObj.getMinutes();
+                  nowsecs = dateObj.getSeconds();
+                  document.writeln("<input type=\"text\" name=\"hour\" size=\"2\"value=\"" + nowhour*1 + "\" /> <b>:</b>");
+                  document.writeln("<input type=\"text\" name=\"mins\" size=\"2\"value=\"" + nowmins*1 + "\" /> <b>:</b>");
+                  document.writeln("<input type=\"text\" name=\"secs\" size=\"2\"value=\"" + nowsecs*1 + "\" />");
+                </script>
+                <input type="radio" name="ampm" value="AM" />AM  
+                <input type="radio" name="ampm" value="PM" />PM  
+                <input type="radio" name="ampm" value="24" CHECKED />24hr  
+              </center>
+            </td>
+          </tr>
+        </table>
+    </form>
+      <br />
+	<center>
+	  <p>
+	    <input type="button" value="Calculate Sun Data" onclick="calcForm()" />
+	  </p>
+	</center>
+      <br />
+    <form name="sunData">
+    <center>
+
+
+<table border="1">
+      <tr>
+      <td rowspan="2">Time zone</td>
+        <td colspan="3" align="center">Solar time</td>
+      </tr>
+      <tr>
+        <td>Apparent sunrise:</td>
+        <td>Solar noon:</td>
+        <td>Apparent sunset:</td>
+      </tr>
+      <tr>
+        <td>Local</td>
+        <td><input type="text" name="sunrise" size="13" /></td>
+        <td><input type="text" name="solnoon" size="8" /></td>
+        <td><input type="text" name="sunset" size="13" /></td>
+      </tr>
+      <tr>
+        <td>UTC</td>
+        <td><input type="text" name="utcsunrise" size="13" /></td>
+        <td><input type="text" name="utcsolnoon" size="8" /></td>
+        <td><input type="text" name="utcsunset" size="13" /></td>
+      </tr>
+</table>
+
+    <br />
+    <table border="1">
+      <tr>
+        <td rowspan="2">Time of day</td>
+        <td colspan="5" align="center">Solar position at given time</td>
+      </tr>
+      <tr>
+    <td>Equation
+      of time<br />
+      (minutes):</td>
+    <td>Solar
+      declination<br />
+      (degrees):</td>
+    <td>Solar
+      azimuth:</td>
+    <td>Solar
+      elevation:</td>
+    <td>cosine of
+      solar <br />zenith angle</td>
+  </tr>
+  <tr>
+    <td>00:00:00</td>
+    <td><input type="text" name="eqTimeMidnight" size = "8" /></td>
+    <td><input type="text" name="solarDecMidnight" size = "8" /></td>
+    <td><input type="text" name="azimuthMidnight" size="8" /></td>
+    <td><input type="text" name="elevationMidnight" size="8" /></td>
+    <td><input type="text" name="coszenMidnight" size="8" /></td>
+  </tr>
+  <tr>
+    <td>Solar Noon</td>
+    <td><input type="text" name="eqTimeNoon" size = "8" /></td>
+    <td><input type="text" name="solarDecNoon" size = "8" /></td>
+    <td><input type="text" name="azimuthNoon" size="8" /></td>
+    <td><input type="text" name="elevationNoon" size="8" /></td>
+    <td><input type="text" name="coszenNoon" size="8" /></td>
+  </tr>
+  <tr>
+    <td><input type="text" name="time" size="13" /></td>
+    <td><input type="text" name="eqTime" size = "8" /></td>
+    <td><input type="text" name="solarDec" size = "8" /></td>
+    <td><input type="text" name="azimuth" size="8" /></td>
+    <td><input type="text" name="elevation" size="8" /></td>
+    <td><input type="text" name="coszen" size="8" /></td>
+  </tr>
+  <tr>
+    <td colspan="7" align="center">Azimuth and elevation both report dark after astronomical twilight. </td>
+    </tr>
+</table>
+
+    </center>
+    </form>
+  <hr />
+  <div id="footer" style="display: flex; justify-content: center;"></div>
+  </body>
+</html>

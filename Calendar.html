@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Calendário</title>
+	<link id="calendar-stylesheet" rel="stylesheet" type="text/css" href="Calendar_pt_BR.css" charset="utf-8">
+	<script language="javascript" type="text/javascript" src="Computus.js"></script>
+	<script language="javascript" type="text/javascript" src="DateTime.js"></script>
+	<script language="javascript" type="text/javascript" src="DOMHelper.js"></script>
+	<script language="javascript" type="text/javascript" src="CalSheet.js"></script>
+	<script language="javascript" type="text/javascript" src="Calendar.js"></script>
+	<script language="javascript" type="text/javascript" src="Calendar_pt_BR.js"></script>
+	<script language="javascript" type="text/javascript" src="GitHubRepository.js"></script>
+<script>
+
+CalendarStylesheets = [
+	"Calendar_pt_BR.css",
+	"Calendar.css",
+	"Calendarr_pt_BR.css",
+];
+
+CalendarStylesheetsIndex = 0;
+
+function changeStylesheet() {
+	CalendarStylesheetsIndex = ((CalendarStylesheetsIndex+1) < CalendarStylesheets.length)?(CalendarStylesheetsIndex + 1):0;
+	document.getElementById("stylesheet-name").innerHTML = CalendarStylesheets[CalendarStylesheetsIndex];
+	document.getElementById("calendar-stylesheet").href = CalendarStylesheets[CalendarStylesheetsIndex];
+}
+
+var year;
+var this_year;
+var this_month;
+var this_date;
+
+function loadPage() {
+	TheCalendar = new Calendar("Calendar", CalendarConfig_pt_BR);
+	var date = new Date();
+	year = this_year = date.getFullYear();
+	this_month = date.getMonth();
+	this_date = date.getDate();
+	printSheets();
+	printLabel();
+}
+
+const dayoff_color="#D8D";
+const celebration_color="#AAF"
+const today_color="#EE3"
+const moonChar = [
+	"&#127761;", // new moon
+	"&#127767;", // first quarter
+	"&#127765;", // full moon
+	"&#127763;"  // last quarter
+];
+
+function addHoliday(month,date,name,color){
+	DOM$.i("holiday_"+month).innerHTML+=date+" - "+name+"<br />"
+	DOM$.i(month+"_"+date).setAttribute("style","background:"+color);
+	var previous=DOM$.i(month+"_"+date).getAttribute("data-tooltip");
+	DOM$.i(month+"_"+date).setAttribute("data-tooltip", (previous?previous+" e ":"")+name);
+}
+
+function printSheets(){
+	DOM$.i("year").innerHTML = year;
+	for (var i=0;i<12;i++){
+		DOM$.cleanHTML("month_"+i);
+		createCalendarSheet("month_"+i,year,i);
+		var holiday = DOM$.create("div","month_"+i,"holiday_"+i);
+		holiday.setAttribute('class',"datespanel");
+	}
+	// Hoje
+	if (year==this_year) {
+		DOM$.i(this_month+"_"+this_date).setAttribute("style","background:"+today_color);
+		DOM$.i(this_month+"_"+this_date).setAttribute("data-tooltip", "Hoje");
+	}
+
+	// Fases da Lua
+	var moonArray = Computus.truePhaseYear(year);
+	for (let l=0;l<=13;l++) {
+		for (let p=0;p<4;p+=1) {
+			let temp = (new Date()).setJulianDate(moonArray[l][p]);
+			if (temp.getUTCFullYear()==year) {
+				var text = DOM$.i("moon_"+temp.getUTCMonth());
+				text.innerHTML += moonChar[p]+temp.getUTCDate()+"&nbsp;";
+			}
+		}
+	}
+
+	// Feriados e datas comemorativas
+	var easter = Computus.easterSunday(year); // obtém data da páscoa
+	// Dia do trabalho
+	addHoliday(0,1,"Ano Novo",dayoff_color);
+	// Carnaval
+	var date = new Date(year,easter[1],easter[2]);
+	date.setDate(date.getDate()+Computus.saturnaliaFinis);
+	addHoliday(date.getMonth(),date.getDate(),"Carnaval",dayoff_color);
+	// Quarta-feira de Cinzas
+	var date = new Date(year,easter[1],easter[2]);
+	date.setDate(date.getDate()+Computus.mercuriiCinereo);
+	addHoliday(date.getMonth(),date.getDate(),"Quarta-feira de Cinzas",dayoff_color);
+	// Dia Internacional da Mulher
+	addHoliday(2,8,"Dia Internacional da Mulher",celebration_color);
+	// Domingo de ramos
+	var date = new Date(year,easter[1],easter[2]);
+	date.setDate(date.getDate()+Computus.solisPalmarum);
+	addHoliday(date.getMonth(),date.getDate(),"Domingo de Ramos",dayoff_color);
+	// Sexta-feira da Paixão
+	var date = new Date(year,easter[1],easter[2]);
+	date.setDate(date.getDate()-2);
+	addHoliday(date.getMonth(),date.getDate(),"Sexta-feira da Paixão",dayoff_color);
+	// Páscoa
+	addHoliday(easter[1],easter[2],"Páscoa",dayoff_color);
+	// Dia do Índio
+	addHoliday(3,19,"Dia do Índio",celebration_color);
+	// Tiradentes
+	addHoliday(3,21,"Tiradentes",dayoff_color);
+	// Descobrimento do Brasil
+	addHoliday(3,22,"Descobrimento do Brasil",celebration_color);
+	// Dia do trabalho
+	addHoliday(4,1,"Dia do trabalho",dayoff_color);
+	// Dia das Mães
+	var date = dateByDay(year,4,0,2);
+	addHoliday(date.getMonth(),date.getDate(),"Dia das Mães",celebration_color);
+	// Pentecostes
+	var date = new Date(year,easter[1],easter[2]);
+	date.setDate(date.getDate()+Computus.pentaecoste);
+	addHoliday(date.getMonth(),date.getDate(),"Pentecostes",celebration_color);
+	// Corpus Christi
+	var date = new Date(year,easter[1],easter[2]);
+	date.setDate(date.getDate()+Computus.corpusDomini);
+	addHoliday(date.getMonth(),date.getDate(),"Corpus Christi",dayoff_color);
+	// Dia dos Pais
+	var date = dateByDay(year,7,0,2);
+	addHoliday(date.getMonth(),date.getDate(),"Dia dos Pais",celebration_color);
+	// Independência
+	addHoliday(8,7,"Independência do Brasil",dayoff_color);
+	// Nossa Senhora Aparecida
+	addHoliday(9,12,"Nossa Senhora Aparecida",dayoff_color);
+	// Dia das Crianças
+	addHoliday(9,12,"Dia das Crianças",dayoff_color);
+	// Finados
+	addHoliday(10,2,"Finados",dayoff_color);
+	// Proclamação da República
+	addHoliday(10,15,"Proclamação da República",dayoff_color);
+	// Dia da Bandeira
+	addHoliday(10,19,"Dia da Bandeira",celebration_color);
+	// Consciência Negra
+	addHoliday(10,20,"Dia da Consciência Negra",celebration_color);
+	// Natal
+	addHoliday(11,25,"Natal",dayoff_color);
+}
+
+function printLabel(){
+	var label = DOM$.i("label");
+	label.innerHTML += "<span class='thismonth' style='background:"+dayoff_color+"'>&nbsp;&nbsp;</span> Feriado ";
+	label.innerHTML += "<span class='thismonth' style='background:"+celebration_color+"'>&nbsp;&nbsp;</span> Data comemorativa ";
+	label.innerHTML += "<span class='thismonth' style='background:"+today_color+"'>&nbsp;&nbsp;</span> Hoje<br />";
+	label.innerHTML += moonChar[0]+" Lua Nova  ";
+	label.innerHTML += moonChar[1]+" Quarto Crescente  ";
+	label.innerHTML += moonChar[2]+" Lua Cheia  ";
+	label.innerHTML += moonChar[3]+" Quarto Minguante";
+}
+
+function buttonAdvance(){
+	year++;
+	printSheets();
+}
+
+function buttonRetrogress(){
+	year--;
+	printSheets();
+}
+</script>
+</head>
+
+<body onload="loadPage(); GitHubRepository('footer', 'sergiolindau', 'Computus', 'Sergio Lindau', 2017);">
+<h1 align="center">Calendário</h1>
+<table align="center" id="calendar" class="oldcal">
+  <tr>
+    <td colspan="4" align="center"><h1 id="year" class="simple-text">&nbsp;</h1></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="right"><input type="button" value="<<" onclick="buttonRetrogress()" /></td>
+    <td colspan="2" align="left"><input type="button" value=">>" onclick="buttonAdvance()" /></td>
+  </tr>
+  <tr>
+    <td colspan="4" align="center" id="label" class="simple-text">
+    </td>
+  </tr>
+  <tr>
+    <td id="month_0" valign="top">&nbsp;</td>
+    <td id="month_1" valign="top">&nbsp;</td>
+    <td id="month_2" valign="top">&nbsp;</td>
+    <td id="month_3" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td id="month_4" valign="top">&nbsp;</td>
+    <td id="month_5" valign="top">&nbsp;</td>
+    <td id="month_6" valign="top">&nbsp;</td>
+    <td id="month_7" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td id="month_8" valign="top">&nbsp;</td>
+    <td id="month_9" valign="top">&nbsp;</td>
+    <td id="month_10" valign="top">&nbsp;</td>
+    <td id="month_11" valign="top">&nbsp;</td>
+  </tr>
+</table>
+
+  <hr />
+  <h3 align="center">New version test</h3>
+  <p align="center">
+    <input type="button" value="Change Stylesheet" onclick="changeStylesheet()" />&nbsp;using <span id="stylesheet-name">Calendar_pt_BR.css</span>
+  </p>
+  <hr />
+  <h1 align="center">Calendário</h1>
+  <div id="Calendar" style="display: flex; justify-content: center;"></div>
+  <hr />
+  <div id="footer" style="display: flex; justify-content: center;"></div>
+</body>
+</html>

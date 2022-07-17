@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Test</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+function Test() {
+var xyValues = [
+  {x:50, y:7},
+  {x:60, y:8},
+  {x:70, y:8},
+  {x:80, y:9},
+  {x:90, y:9},
+  {x:100, y:9},
+  {x:110, y:10},
+  {x:120, y:11},
+  {x:130, y:14},
+  {x:140, y:14},
+  {x:150, y:15}
+];
+
+
+var opt =   {
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    text: "Title"
+                },
+                subtitle: {
+                    display: true,
+                    text: "subtitle"
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom',
+                    title: {
+                        display: true,
+                        text: "X axis"
+                    },
+                    ticks: {
+                    },
+                    min: 0,
+                    max: 200
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: "Y axis"
+                    },
+                    ticks: {
+                    },
+                    min: 0,
+                    max: 200
+                }
+            },
+            animation: {
+                duration: 3 // general animation time
+            },
+            hover: {
+                animationDuration: 3 // duration of animations when hovering an item
+            },
+            responsiveAnimationDuration: 3 // animation duration after a resize
+        }
+
+var data = {
+    datasets: [{
+            label: "Test",
+            backgroundColor: 'rgb(132, 99, 255)',
+            borderColor: 'rgb(132, 99, 255)',
+            pointRadius: 3,
+            data: xyValues,
+        }]
+  };
+
+const config = {
+            type: 'scatter',
+            data: data,
+            options: opt
+        };
+
+        console.log(opt)
+
+var CanvasChart = document.getElementById("myChart");
+
+const theChart = new Chart(
+            CanvasChart,
+            config
+        );
+    
+};
+
+</script>
+</head>
+
+<body onload="Test()">
+
+<p>
+  <canvas id="myChart" style="width: 700px; height: 700px;"></canvas>
+</p>
+<p>Ano: <input type="text" id="year" />
+</p>
+<p><img src="doc/info/img/orbital-elements.svg" /></p>
+<p><object data="doc/info/img/orbital-elements.svg" type="image/svg+xml"></object></p>
+<div style="width: 700px; height: fit-content;"></div>
+
+</body>
+</html>

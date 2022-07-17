@@ -1,0 +1,1 @@
+Ver [[Tempo Dinâmico Terrestre]].

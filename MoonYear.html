@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Fases da Lua</title>
+  <script language="javascript" type="text/javascript" src="DOMHelper.js"></script>
+  <script language="javascript" type="text/javascript" src="Computus.js"></script>
+  <script language="javascript" type="text/javascript" src="DateTime.js"></script>
+  <script language="javascript" type="text/javascript" src="moonPhaseTable.js"></script>
+  <script src="GitHubRepository.js"></script>
+<script>
+var year;
+function loadPage(){
+	year = new Date().getUTCFullYear();
+	moonPhaseTable('content',year);
+}
+
+function buttonAdvance(){
+	year++;
+	moonPhaseTable('content',year);
+}
+
+function buttonRetrogress(){
+	year--;
+	moonPhaseTable('content',year);
+}
+</script>
+</head>
+<body onload="loadPage(); GitHubRepository('footer', 'sergiolindau', 'Computus', 'Sergio Lindau', 2017);">
+<table align="center" id="calendar">
+  <tr>
+    <td colspan="4" align="center"><h1 id="year" class="simple-text">&nbsp;</h1></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="right"><input type="button" value="<<" onclick="buttonRetrogress()" /></td>
+    <td colspan="2" align="left"><input type="button" value=">>" onclick="buttonAdvance()" /></td>
+  </tr>
+  <tr>
+    <td colspan="4" align="center" id="label" class="simple-text">
+    </td>
+  </tr>
+</table>
+  <div id="content"></div>
+  <p><a href="https://en.wikipedia.org/wiki/File:2017_Lunar_Calendar.png">https://en.wikipedia.org/wiki/File:2017_Lunar_Calendar.png</a></p>
+  <hr />
+  <div id="footer" style="display: flex; justify-content: center;"></div></body>
+</html>

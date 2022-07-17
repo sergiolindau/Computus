@@ -1,0 +1,9 @@
+Astronomia é uma ciência natural que estuda corpos celestes (como estrelas, planetas, cometas, nebulosas, aglomerados de estrelas, galáxias) e fenômenos que se originam fora da atmosfera da Terra (como a radiação cósmica de fundo em micro-ondas). Preocupada com a evolução, a física, a química e o movimento de objetos celestes, bem como a formação e o desenvolvimento do universo.
+
+![The Galactic Centre and Bulge above the ESO 3.6-metre telescope](https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/The_Galactic_Centre_and_Bulge_above_the_ESO_3.6-metre_telescope.jpg/800px-The_Galactic_Centre_and_Bulge_above_the_ESO_3.6-metre_telescope.jpg)
+
+A astronomia é uma das mais antigas ciências. Culturas pré-históricas deixaram registrados vários artefatos astronômicos, como Stonehenge, os montes de Newgrange e os menires. As primeiras civilizações, como os babilônios, gregos, chineses, indianos, iranianos e maias realizaram observações metódicas do céu noturno. No entanto, a invenção do telescópio permitiu o desenvolvimento da astronomia moderna. Historicamente, a astronomia incluiu disciplinas tão diversas como astrometria, navegação astronômica, astronomia observacional e a elaboração de calendários. Durante o período medieval, seu estudo era obrigatório e estava incluído no Quadrivium que, junto com o Trivium, compunha a metodologia de ensino das sete Artes liberais.
+
+## Wikipédia
+
+[Português](https://pt.wikipedia.org/wiki/Astronomia) - [Español](https://es.wikipedia.org/wiki/Astronom%C3%ADa) - [Italiano](https://it.wikipedia.org/wiki/Astronomia) - [English](https://en.wikipedia.org/wiki/Astronomy) - [Français](https://fr.wikipedia.org/wiki/Astronomie) - [Deutsch](https://de.wikipedia.org/wiki/Astronomie)

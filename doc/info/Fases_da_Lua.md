@@ -1,0 +1,1 @@
+Por definição, os momentos de Lua Nova, Quarto Crescente, Lua Cheia e Quarto Minguante são os tempos em que o excesso da longitude geocêntrica aparente da Lua sobre a longitude geocêntrica aparente do Sol é 0º, 90º, 180º e 270º , respectivamente.
